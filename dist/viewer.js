@@ -192,9 +192,7 @@
     }
 
     function Viewer(element, options) {
-        console.log("-----------------");
         console.log(element);
-        console.log("+++++++++++++++++");
         this.$element = $(element);
         this.options = $.extend({}, Viewer.DEFAULTS, $.isPlainObject(options) && options);
         this.isImg = false;
