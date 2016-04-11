@@ -192,6 +192,9 @@
     }
 
     function Viewer(element, options) {
+        console.log("-----------------");
+        console.log(element);
+        console.log("+++++++++++++++++");
         this.$element = $(element);
         this.options = $.extend({}, Viewer.DEFAULTS, $.isPlainObject(options) && options);
         this.isImg = false;
@@ -1334,20 +1337,12 @@
             }
         },
 
-        /**
-         * Scale the abscissa of the image
-         *
-         * @param {Number} scaleX
-         */
+        //Scale the ordinate of the image  @param {Number} scaleX
         scaleX: function (scaleX) {
             this.scale(scaleX, this.image.scaleY);
         },
 
-        /**
-         * Scale the ordinate of the image
-         *
-         * @param {Number} scaleY
-         */
+        //Scale the ordinate of the image  @param {Number} scaleY
         scaleY: function (scaleY) {
             this.scale(this.image.scaleX, scaleY);
         },

@@ -86,6 +86,7 @@ $(function () {
         toggleButtons(options.inline ? 'inline' : 'modal');
     });
 
+    var i = 4;
     $buttons.on('click', 'button', function () {
         var data = $(this).data();
         var args = data.arguments || [];
@@ -106,6 +107,10 @@ $(function () {
 
                 case 'destroy':
                     toggleButtons('none');
+                    break;
+                case 'add':
+                    if(i == 9) $(this).prop("disabled",true);
+                    $images.append('<li><img data-original="../assets/img/tibet-'+i+'.jpg" src="../assets/img/thumbnails/tibet-'+i+'.jpg" alt="add'+i+'"></li>');i++;
                     break;
             }
         }

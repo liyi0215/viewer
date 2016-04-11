@@ -25,38 +25,6 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<!-- Header -->
-<header class="navbar navbar-static-top docs-header" id="top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-target="#navbar-collapse-1" data-toggle="collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="./">Viewer</a>
-        </div>
-        <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/fengyuanchen/viewer/blob/master/README.md">Docs</a></li>
-                <li><a href="https://github.com/fengyuanchen/viewer">GitHub</a></li>
-                <li><a href="http://chenfengyuan.com">About</a></li>
-                <li><a href="http://fengyuanchen.github.io">More</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<!-- Jumbotron -->
-<div class="jumbotron docs-jumbotron">
-    <div class="container">
-        <h1>Viewer</h1>
-
-        <p class="lead">A simple jQuery image viewing plugin.</p>
-    </div>
-</div>
-
 <!-- Content -->
 <div class="container">
     <h1 class="page-header">Overview</h1>
@@ -343,16 +311,98 @@
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 <script src="../dist/viewer.js"></script>
-<script src="js/main.js"></script>
 <script>
-//    var i = 4;
-//    var $pic = $(".docs-pictures");
-//    $("#add").on("click",function(){
-//        if(i == 9){
-//            $(this).prop("disabled",true);
-//        }
-//        $pic.append('<li><img data-original="../assets/img/tibet-'+i+'.jpg" src="../assets/img/thumbnails/tibet-'+i+'.jpg" alt="add'+i+'"></li>');i++;
-//    });
+    $(function () {
+        'use strict';
+        var console = window.console || {log: function () {}};
+        var $images = $('.docs-pictures');
+        var $toggles = $('.docs-toggles');
+        var $buttons = $('.docs-buttons');
+        var options = {
+            // inline: true,
+            url: 'data-original',
+            build: function (e) {
+                console.log(e.type);
+            },
+            built: function (e) {
+                console.log(e.type);
+            },
+            show: function (e) {
+                console.log(e.type);
+            },
+            shown: function (e) {
+                console.log(e.type);
+            },
+            hide: function (e) {
+                console.log(e.type);
+            },
+            hidden: function (e) {
+                console.log(e.type);
+            },
+            view: function (e) {
+                console.log(e.type);
+            },
+            viewed: function (e) {
+                console.log(e.type);
+            }
+        };
+
+        function toggleButtons(mode) {
+            if (/modal|inline|none/.test(mode)) {
+                $buttons.
+                        find('button[data-enable]').
+                        prop('disabled', true).
+                        filter('[data-enable*="' + mode + '"]').
+                        prop('disabled', false);
+            }
+        }
+
+        $images.viewer();
+
+        toggleButtons(options.inline ? 'inline' : 'modal');
+
+        $toggles.on('change', 'input', function () {
+            var $input = $(this);
+            var name = $input.attr('name');
+
+            options[name] = name === 'inline' ? $input.data('value') : $input.prop('checked');
+            $images.viewer('destroy').viewer(options);
+            toggleButtons(options.inline ? 'inline' : 'modal');
+        });
+
+        var i = 4;
+        $buttons.on('click', 'button', function () {
+            var data = $(this).data();
+            var args = data.arguments || [];
+
+            if (data.method) {
+                console.log(data);
+                if (data.target) {
+                    $images.viewer(data.method, $(data.target).val());
+                } else {
+                    $images.viewer(data.method, args[0], args[1]);
+                }
+
+                switch (data.method) {
+                    case 'scaleX':
+                    case 'scaleY':
+                        args[0] = -args[0];
+                        break;
+
+                    case 'destroy':
+                        toggleButtons('none');
+                        break;
+                    case 'add':
+                        if(i == 9) $(this).prop("disabled",true);
+                        $images.append('<li><img data-original="../assets/img/tibet-'+i+'.jpg" src="../assets/img/thumbnails/tibet-'+i+'.jpg" alt="add'+i+'"></li>');i++;
+                        $images.viewer("update");
+                        break;
+                }
+            }
+        });
+
+    });
+
 </script>
 </body>
 </html>
