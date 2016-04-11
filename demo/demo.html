@@ -374,9 +374,9 @@
         $buttons.on('click', 'button', function () {
             var data = $(this).data();
             var args = data.arguments || [];
+            console.log(args);
 
             if (data.method) {
-                console.log(data);
                 if (data.target) {
                     $images.viewer(data.method, $(data.target).val());
                 } else {
@@ -394,7 +394,7 @@
                         break;
                     case 'add':
                         if(i == 9) $(this).prop("disabled",true);
-                        $images.append('<li><img data-original="../assets/img/tibet-'+i+'.jpg" src="../assets/img/thumbnails/tibet-'+i+'.jpg" alt="add'+i+'"></li>');i++;
+                        $images.append('<li class="hide"><img data-original="../assets/img/tibet-'+i+'.jpg" src="../assets/img/thumbnails/tibet-'+i+'.jpg" alt="add'+i+'"></li>');i++;
                         $images.viewer("update");
                         break;
                 }
